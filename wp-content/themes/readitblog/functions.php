@@ -5,6 +5,7 @@ add_filter('show_admin_bar', '__return_false');
 add_action('wp_enqueue_scripts', 'register_styles_scripts');
 add_action('after_setup_theme', 'after_setup');
 add_action('widgets_init', 'register_widgets');
+add_action('init', 'register_post_types');
 
 
 function register_styles_scripts() {
@@ -45,6 +46,7 @@ function after_setup() {
 };
 
 function register_widgets() {
+    register_sidebar(['name' => 'Social links', 'id' => 'social_links']);
     register_sidebar(['name' => 'latest News', 'id' => 'latest_news']);
     register_sidebar(['name' => 'Information', 'id' => 'information']);
     register_sidebar(['name' => 'Have a Questions?', 'id' => 'questions']);
@@ -54,16 +56,19 @@ function register_widgets() {
 if( function_exists('acf_add_options_page') ) {
 
     acf_add_options_page(array(
-        'page_title' 	=> 'Theme General Settings',
         'menu_title'	=> 'Theme Settings',
         'menu_slug' 	=> 'theme-general-settings',
-        'capability'	=> 'edit_posts',
-        'redirect'		=> false
     ));
 
     acf_add_options_sub_page(array(
         'page_title' 	=> 'Theme Header Settings',
         'menu_title'	=> 'Header',
+        'parent_slug'	=> 'theme-general-settings',
+    ));
+
+    acf_add_options_sub_page(array(
+        'page_title' 	=> 'Theme Blog Single Settings',
+        'menu_title'	=> 'Blog Single',
         'parent_slug'	=> 'theme-general-settings',
     ));
 
@@ -78,4 +83,53 @@ if( function_exists('acf_add_options_page') ) {
 function time_to_read() {
     $post = get_post();
     echo round(strlen($post->post_content) /120);
+};
+
+function register_post_types(){
+	register_post_type('event', array(
+		'labels' => array(
+			'name'               => 'Event',
+			'singular_name'      => 'Event',
+			'add_new'            => 'Добавить event',
+			'add_new_item'       => 'Добавление event',
+			'edit_item'          => 'Редактирование event',
+			'new_item'           => 'Новое event',
+			'view_item'          => 'Смотреть event',
+			'search_items'       => 'Искать event',
+			'not_found'          => 'Не найдено',
+			'not_found_in_trash' => 'Не найдено в корзине',
+			'parent_item_colon'  => '',
+			'menu_name'          => 'Event',
+		),
+		'public'              => true,
+		'menu_position'       => 7,
+		'menu_icon'           => 'dashicons-format-aside',
+		'hierarchical'        => true,
+		'supports'            => [ 'title', 'editor','thumbnail'],//'excerpt', 'author','trackbacks','custom-fields','comments','revisions','page-attributes','post-formats'
+		'taxonomies'          => ['category'],
+		'has_archive'         => true,
+		'rewrite'             => true,
+		'query_var'           => true,
+	) );
+
+	register_taxonomy( 'taxonomy', [ 'event' ], [
+		'labels'                => [
+			'name'              => 'Міста',
+			'singular_name'     => 'city',
+			'search_items'      => 'Search cities',
+			'all_items'         => 'All cities',
+			'view_item '        => 'View city',
+			'parent_item'       => 'Parent city',
+			'parent_item_colon' => 'Parent city:',
+			'edit_item'         => 'Edit city',
+			'update_item'       => 'Update city',
+			'add_new_item'      => 'Add New city',
+			'new_item_name'     => 'New city Name',
+			'menu_name'         => 'City',
+		],
+		'description'           => '',
+		'public'                => true,
+		'hierarchical'          => false,
+	] );
+
 }
