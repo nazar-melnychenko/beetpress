@@ -22,20 +22,20 @@ get_header();
 	<div class="container">
 		<div class="row d-flex mb-5 contact-info">
 			<div class="col-md-12 mb-4">
-				<h2 class="h3"><?php the_field('contacts_title', 'options');?></h2>
+				<h2 class="h3"><?php the_field('contacts_title');?></h2>
 			</div>
 			<div class="w-100"></div>
 			<div class="col-md-3">
-				<p><span>Address:</span><?php the_field('contacts_address', 'options');?></p>
+				<p><span>Address:</span><?php the_field('contacts_address');?></p>
 			</div>
 			<div class="col-md-3">
-				<p><span>Phone:</span> <a href="tel://<?php the_field('contacts_phone', 'options');?>"><?php the_field('contacts_phone', 'options');?></a></p>
+				<p><span>Phone:</span> <a href="tel://<?php the_field('contacts_phone');?>"><?php the_field('contacts_phone');?></a></p>
 			</div>
 			<div class="col-md-3">
-				<p><span>Email:</span> <a href="mailto:<?php the_field('contacts_email', 'options');?>"><?php the_field('contacts_email', 'options');?></a></p>
+				<p><span>Email:</span> <a href="mailto:<?php the_field('contacts_email');?>"><?php the_field('contacts_email');?></a></p>
 			</div>
 			<div class="col-md-3">
-				<p><span>Website</span> <a href="<?php the_field('contacts_website', 'options');?>" target="_blank"><?php the_field('contacts_website', 'options');?></a></p>
+				<p><span>Website</span> <a href="<?php the_field('contacts_website');?>" target="_blank"><?php the_field('contacts_website');?></a></p>
 			</div>
 		</div>
 		<div class="row block-9 no-gutters">
@@ -46,7 +46,7 @@ get_header();
 				</div>
 			</div>
 			<div class="col-lg-6 d-flex">
-				<div id="map" class="bg-white"><?php the_field('contacts_map', 'options');?></div>
+				<div id="map" class="bg-white"><?php the_field('contacts_map');?></div>
 			</div>
 		</div>
 	</div>

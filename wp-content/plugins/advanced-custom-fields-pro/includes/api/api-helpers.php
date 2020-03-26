@@ -4279,8 +4279,7 @@ function acf_is_plugin_active() {
 		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 		
 	}
-	
-	
+
 	// return
 	return is_plugin_active($basename);
 	
