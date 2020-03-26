@@ -7,6 +7,8 @@ add_action('after_setup_theme', 'after_setup');
 add_action('widgets_init', 'register_widgets');
 add_action('init', 'register_post_types');
 
+add_filter('comment_form_fields', 'kama_reorder_comment_fields' );
+
 
 function register_styles_scripts() {
     wp_enqueue_style('readitblog-open-iconic', get_template_directory_uri() . '/assets/css/open-iconic-bootstrap.min.css');
@@ -32,7 +34,7 @@ function register_styles_scripts() {
     wp_enqueue_script('readitblog-aos', get_template_directory_uri() . '/assets/js/aos.js', [], null, true);
     wp_enqueue_script('readitblog-jquery-animateNumber', get_template_directory_uri() . '/assets/js/jquery.animateNumber.min.js', [], null, true);
     wp_enqueue_script('readitblog-scrollax', get_template_directory_uri() . '/assets/js/scrollax.min.js', [], null, true);
-    wp_enqueue_script('readitblog-googleapis', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false', [], null,true);
+    wp_enqueue_script('readitblog-googleapis', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCDCApeoMpSTQxvz14Yhh09zlsw8FhB2ck&libraries', [], null,true);
     wp_enqueue_script('readitblog-google-map', get_template_directory_uri() . '/assets/js/google-map.js', [], null, true);
     wp_enqueue_script('readitblog-main', get_template_directory_uri() . '/assets/js/main.js', [], null, true);
 };
@@ -72,6 +74,12 @@ if( function_exists('acf_add_options_page') ) {
         'parent_slug'	=> 'theme-general-settings',
     ));
 
+	acf_add_options_sub_page(array(
+		'page_title' 	=> 'Theme Contacts Settings',
+		'menu_title'	=> 'Contacts',
+		'parent_slug'	=> 'theme-general-settings',
+	));
+
     acf_add_options_sub_page(array(
         'page_title' 	=> 'Theme Footer Settings',
         'menu_title'	=> 'Footer',
@@ -99,7 +107,7 @@ function register_post_types(){
 			'not_found'          => 'Не найдено',
 			'not_found_in_trash' => 'Не найдено в корзине',
 			'parent_item_colon'  => '',
-			'menu_name'          => 'Event',
+			'menu_name'          => 'Events',
 		),
 		'public'              => true,
 		'menu_position'       => 7,
@@ -131,5 +139,36 @@ function register_post_types(){
 		'public'                => true,
 		'hierarchical'          => false,
 	] );
-
 }
+
+function kama_reorder_comment_fields( $fields ){
+
+	$new_fields = [];
+
+	$myorder = ['author','email','website','comment'];
+
+	foreach( $myorder as $key ){
+		$new_fields[ $key ] = $fields[ $key ];
+		unset( $fields[ $key ] );
+	}
+	if( $fields )
+		foreach( $fields as $key => $val )
+			$new_fields[ $key ] = $val;
+
+	return $new_fields;
+}
+
+function format_comment($comment, $args, $depth) {
+	$GLOBALS['comment'] = $comment; ?>
+	<li class="comment">
+		<div class="vcard bio">
+			<?php echo get_avatar( $comment, 50); ?>
+		</div>
+		<div class="comment-body">
+			<h3><?php comment_author(); ?></h3>
+			<div class="meta mb-3"><?php comment_date('F j, Y g:i a');?></div>
+			<p><?php comment_text(); ?></p>
+			<?php comment_reply_link(array_merge( $args, array('depth' => $depth, 'max_depth' => $args['max_depth']))) ?>
+		</div>
+	</li>
+<?php } ?>
