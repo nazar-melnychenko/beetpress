@@ -6,9 +6,10 @@ add_action('wp_enqueue_scripts', 'register_styles_scripts');
 add_action('after_setup_theme', 'after_setup');
 add_action('widgets_init', 'register_widgets');
 add_action('init', 'register_post_types');
+add_action('acf/init', 'my_acf_init');
+add_action('acf/init', 'be_register_blocks' );
 
 add_filter('comment_form_fields', 'kama_reorder_comment_fields' );
-
 
 function register_styles_scripts() {
     wp_enqueue_style('readitblog-open-iconic', get_template_directory_uri() . '/assets/css/open-iconic-bootstrap.min.css');
@@ -34,7 +35,7 @@ function register_styles_scripts() {
     wp_enqueue_script('readitblog-aos', get_template_directory_uri() . '/assets/js/aos.js', [], null, true);
     wp_enqueue_script('readitblog-jquery-animateNumber', get_template_directory_uri() . '/assets/js/jquery.animateNumber.min.js', [], null, true);
     wp_enqueue_script('readitblog-scrollax', get_template_directory_uri() . '/assets/js/scrollax.min.js', [], null, true);
-    wp_enqueue_script('readitblog-googleapis', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCDCApeoMpSTQxvz14Yhh09zlsw8FhB2ck&libraries', [], null,true);
+    wp_enqueue_script('readitblog-googleapis', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCDCApeoMpSTQxvz14Yhh09zlsw8FhB2ck', [], null,true);
     wp_enqueue_script('readitblog-google-map', get_template_directory_uri() . '/assets/js/google-map.js', [], null, true);
     wp_enqueue_script('readitblog-main', get_template_directory_uri() . '/assets/js/main.js', [], null, true);
 };
@@ -92,16 +93,16 @@ function register_post_types(){
 		'labels' => array(
 			'name'               => 'Event',
 			'singular_name'      => 'Event',
-			'add_new'            => 'Добавить event',
-			'add_new_item'       => 'Добавление event',
-			'edit_item'          => 'Редактирование event',
-			'new_item'           => 'Новое event',
-			'view_item'          => 'Смотреть event',
-			'search_items'       => 'Искать event',
-			'not_found'          => 'Не найдено',
-			'not_found_in_trash' => 'Не найдено в корзине',
+			'add_new'            => 'Додати подію',
+			'add_new_item'       => 'Додавання події',
+			'edit_item'          => 'Редагування події',
+			'new_item'           => 'Нова подія',
+			'view_item'          => 'Дивитись подію',
+			'search_items'       => 'Шукати подію',
+			'not_found'          => 'Не знайдено',
+			'not_found_in_trash' => 'Не знайдено в корзині',
 			'parent_item_colon'  => '',
-			'menu_name'          => 'Events',
+			'menu_name'          => 'Події',
 		),
 		'public'              => true,
 		'menu_position'       => 7,
@@ -133,7 +134,28 @@ function register_post_types(){
 		'public'                => true,
 		'hierarchical'          => false,
 	] );
-}
+
+	register_post_type('reviews', array(
+		'labels' => array(
+			'name'               => 'Відгуки клієнтів',
+			'singular_name'      => 'Відгуки клієнтів',
+			'add_new'            => 'Додати відгук',
+			'add_new_item'       => 'Додавання відгука',
+			'edit_item'          => 'Редагування відгука',
+			'new_item'           => 'Новий відгук',
+			'view_item'          => 'Дивитись відгук',
+			'search_items'       => 'Шукати відгук',
+			'not_found'          => 'Не знайдено',
+			'not_found_in_trash' => 'Не знайдено в корзині',
+			'parent_item_colon'  => '',
+			'menu_name'          => 'Відгуки клієнтів',
+		),
+		'public'              => true,
+		'menu_position'       => 8,
+		'menu_icon'           => 'dashicons-format-aside',
+		'supports'            => ['title','editor'],//'excerpt', 'author','trackbacks','custom-fields','comments','revisions','page-attributes','post-formats'
+	) );
+};
 
 function kama_reorder_comment_fields( $fields ){
 
@@ -150,7 +172,7 @@ function kama_reorder_comment_fields( $fields ){
 			$new_fields[ $key ] = $val;
 
 	return $new_fields;
-}
+};
 
 function format_comment($comment, $args, $depth) {
 	$GLOBALS['comment'] = $comment; ?>
@@ -165,4 +187,23 @@ function format_comment($comment, $args, $depth) {
 			<?php comment_reply_link(array_merge( $args, array('depth' => $depth, 'max_depth' => $args['max_depth']))) ?>
 		</div>
 	</li>
-<?php } ?>
+<?php };
+
+function my_acf_init() {
+	acf_update_setting('google_api_key', 'AIzaSyCDCApeoMpSTQxvz14Yhh09zlsw8FhB2ck');
+};
+
+function be_register_blocks() {
+	if( ! function_exists('acf_register_block') )
+		return;
+	acf_register_block( array(
+		'name'			=> 'team-member',
+		'title'			=> __( 'About', 'clientname' ),
+		'render_template'	=> 'partials/block-about.php',
+		'category'		=> 'formatting',
+		'icon'			=> 'format-aside',
+		'mode'			=> 'preview',
+		'keywords'		=> array( 'profile', 'user', 'author' )
+	));
+};
+

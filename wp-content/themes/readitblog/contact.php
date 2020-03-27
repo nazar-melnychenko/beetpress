@@ -35,18 +35,18 @@ get_header();
 				<p><span>Email:</span> <a href="mailto:<?php the_field('contacts_email');?>"><?php the_field('contacts_email');?></a></p>
 			</div>
 			<div class="col-md-3">
-				<p><span>Website</span> <a href="<?php the_field('contacts_website');?>" target="_blank"><?php the_field('contacts_website');?></a></p>
+				<p><span>Website: </span> <a href="<?php the_field('contacts_website');?>" target="_blank"><?php the_field('contacts_website');?></a></p>
 			</div>
 		</div>
 		<div class="row block-9 no-gutters">
 			<div class="col-lg-6 order-md-last d-flex">
 			<?php the_post(); ?>
-				<div class="bg-light p-4 p-md-5 contact-form">
-					<?php the_content(); ?>
-				</div>
+					<div class="bg-light p-4 p-md-5 contact-form">
+						<?php the_content(); ?>
+					</div>
 			</div>
 			<div class="col-lg-6 d-flex">
-				<div id="map" class="bg-white"><?php the_field('contacts_map');?></div>
+				<div class="map" id="map"></div>
 			</div>
 		</div>
 	</div>

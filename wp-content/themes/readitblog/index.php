@@ -8,12 +8,12 @@
 		<div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start"
 		     data-scrollax-parent="true">
 			<div class="col-md-12 ftco-animate">
-				<h2 class="subheading"><?php the_field('subtitle', 'options'); ?></h2>
-				<h1 class="mb-4 mb-md-0"><?php the_field('title', 'options'); ?></h1>
+				<h2 class="subheading"><?php the_field( 'subtitle', 'options' ); ?></h2>
+				<h1 class="mb-4 mb-md-0"><?php the_field( 'title', 'options' ); ?></h1>
 				<div class="row">
 					<div class="col-md-7">
 						<div class="text">
-							<p><?php the_field('description', 'options'); ?></p>
+							<p><?php the_field( 'description', 'options' ); ?></p>
 							<div class="mouse">
 								<a href="#" class="mouse-icon">
 									<div class="mouse-wheel"><span class="ion-ios-arrow-round-down"></span></div>
@@ -31,14 +31,13 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
-				 <?php if (have_posts()):
-				while (have_posts()): the_post(); ?>
-
+			<?php if ( have_posts() ):
+				while ( have_posts() ): the_post(); ?>
 					<div class="case">
 						<div class="row">
 							<div class="col-md-6 col-lg-6 col-xl-8 d-flex">
 								<a href="<?php the_permalink(); ?>"
-								   class="img w-100 mb-3 mb-md-0"><?php the_post_thumbnail('large'); ?></a>
+								   class="img w-100 mb-3 mb-md-0"><?php the_post_thumbnail( 'large' ); ?></a>
 							</div>
 							<div class="col-md-6 col-lg-6 col-xl-4 d-flex">
 								<div class="text w-100 pl-md-3">
@@ -70,13 +69,13 @@
 		<div class="row mt-5">
 			<div class="col text-center">
 				<div class="block-27">
-			  <?php the_posts_pagination([
-				  'end_size' => 1,
-				  'mid_size' => 1,
-				  'prev_text' => '<',
-				  'next_text' => '>',
+			  <?php the_posts_pagination( [
+				  'end_size'           => 1,
+				  'mid_size'           => 1,
+				  'prev_text'          => '<',
+				  'next_text'          => '>',
 				  'screen_reader_text' => ' '
-			  ]); ?>
+			  ] ); ?>
 				</div>
 			</div>
 		</div>
