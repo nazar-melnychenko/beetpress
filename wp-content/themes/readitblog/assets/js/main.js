@@ -271,3 +271,12 @@
 
 })(jQuery);
 
+window.onload = function () {
+
+	const tabs = document.querySelectorAll('.tabulation-2 li a');
+	const text = document.querySelectorAll('.tabulation-2 .tab-pane');
+	tabs[0].classList.add('active');
+	text[0].classList.add('active');
+	text[0].classList.remove('fade');
+};
+
